@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
 import { ThemeSwitcher } from "@/components/common/theme-switcher";
+import { SignOutButton, UserButton } from "@clerk/nextjs";
 
 const Dashboard = async () => {
   return (
@@ -55,6 +56,10 @@ const Dashboard = async () => {
         </div>
       </div>
       {/* <ThemeSwitcher /> */}
+
+      <Button>
+        <SignOutButton />
+      </Button>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
         {/* Tasks Created Card */}

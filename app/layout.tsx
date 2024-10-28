@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -50,7 +51,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased`}>
         <NextThemesProvider attribute="class" defaultTheme="dark">
-          {children}
+          <ClerkProvider>{children}</ClerkProvider>
         </NextThemesProvider>
       </body>
     </html>

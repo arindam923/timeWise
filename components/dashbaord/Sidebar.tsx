@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon } from "@iconify/react";
 import {
   Avatar,
@@ -7,11 +9,15 @@ import {
   CardFooter,
   ScrollShadow,
   Spacer,
+  user,
 } from "@nextui-org/react";
 import SidebarComponent from "@/components/ui/Sidebar";
 import { items } from "@/components/dashbaord/Sidebar-items";
+import { useUser } from "@clerk/nextjs";
 
 const Sidebar = () => {
+  const { user } = useUser();
+
   return (
     <div className="h-dvh fixed top-0">
       <div className="relative flex h-full w-72 flex-1 flex-col border-r-small border-divider p-6">
@@ -23,13 +29,13 @@ const Sidebar = () => {
         </div>
         <Spacer y={12} />
         <div className="flex items-center gap-3 px-4">
-          <Avatar isBordered size="sm" src="https://i.pravatar.cc/150" />
+          <Avatar isBordered size="sm" src={user?.imageUrl} />
           <div className="flex flex-col">
             <p className="text-small font-medium text-default-600">
-              Arindam Roy
+              {user?.fullName}
             </p>
             <p className="text-tiny text-default-400">
-              CTO @<strong>TIMEWISE</strong>
+              @<strong>TIMEWISE</strong>
             </p>
           </div>
         </div>
