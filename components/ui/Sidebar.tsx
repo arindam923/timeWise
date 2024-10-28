@@ -26,27 +26,46 @@ interface SidebarProps {
 
 const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
   ({ items, isCompact, onSelect, className, iconClassName }, ref) => {
-    const location = usePathname();
+    const pathname = usePathname();
 
-    // Memoize the active key calculation
     const activeKey = React.useMemo(() => {
-      const currentPath = location;
-      return (
-        items.find((item) => item.href === currentPath)?.key || items[0]?.key
+      // Sort items by path length (descending) to match most specific route first
+      const sortedItems = [...items].sort(
+        (a, b) => b.href.length - a.href.length
       );
-    }, [location, items]);
+
+      // Find the first item whose path is included in the current path
+      const activeItem = sortedItems.find((item) => {
+        // Ensure we match complete path segments
+        const itemPath = item.href.endsWith("/") ? item.href : `${item.href}/`;
+        const currentPathWithSlash = pathname.endsWith("/")
+          ? pathname
+          : `${pathname}/`;
+
+        return (
+          currentPathWithSlash.startsWith(itemPath) || pathname === item.href
+        );
+      });
+
+      return activeItem?.key || items[0]?.key;
+    }, [pathname, items]);
 
     // Memoize the render function for items
     const renderItem = React.useCallback(
       (item: SidebarItem) => {
         const isActive = activeKey === item.key;
+        const isParentOfActive = !isActive && pathname.startsWith(item.href);
 
         const itemContent = (
           <div
             className={cn(
               "flex h-11 w-full items-center gap-2 rounded-lg px-3 transition-colors",
               isCompact ? "justify-center w-11 px-0" : "px-3",
-              isActive ? "bg-default-100" : "hover:bg-default-100/80"
+              isActive
+                ? "bg-default-100/50 text-primary"
+                : isParentOfActive
+                ? "bg-muted"
+                : "hover:bg-muted/50 text-muted-foreground"
             )}
           >
             <Icon
