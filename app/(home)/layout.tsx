@@ -1,3 +1,4 @@
+import Header from "@/components/home/Header";
 import { ReactNode } from "react";
 
 interface HomeLayoutProps {
@@ -5,7 +6,12 @@ interface HomeLayoutProps {
 }
 
 const HomeLayout = ({ children }: HomeLayoutProps) => {
-  return <div>{children}</div>;
+  return (
+    <div>
+      <Header />
+      {children}
+    </div>
+  );
 };
 
 export default HomeLayout;
