@@ -42,7 +42,7 @@ const ProjectCards = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
-        <Card key={project.id} className="w-full max-w-xl ">
+        <Card key={project.id} className="w-full py-8 p-4 max-w-xl ">
           <CardHeader className="flex  flex-row items-center justify-between space-y-0 pb-2">
             <h2 className="text-xl truncate mr-2 font-semibold">
               <Link href={`/dashboard/projects/${project.id}`}>
@@ -92,9 +92,9 @@ const ProjectCards = () => {
         </Card>
       ))}
 
-      <Card className="w-full border-2 border-dashed flex items-center justify-center cursor-pointer hover:bg-gray-50">
+      <Card className="w-full border-2 border-dashed flex items-center justify-center cursor-pointer grid place-items-center hover:bg-zinc-800">
         <CardBody className="flex flex-col items-center py-8">
-          <Icon icon="ic:round-plus" />
+          <Icon fontSize={30} icon="ic:round-plus" />
           <p className="text-sm text-gray-500">Add New Project</p>
         </CardBody>
       </Card>

@@ -3,20 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.0.2",
+    "@hookform/resolvers": "^3.9.1",
     "@iconify/react": "^5.0.2",
     "@nextui-org/react": "^2.4.8",
     "@supabase/supabase-js": "^2.45.6",
     "next": "14.2.16",
     "next-themes": "^0.3.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.53.2",
+    "zod": "^3.23.8",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "typescript": "^5",

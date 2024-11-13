@@ -1,20 +1,27 @@
+'use client'
+
 import {
-  Badge,
   Button,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Chip,
-  Link,
+  useDisclosure,
 } from "@nextui-org/react";
 import { Icon } from "@iconify/react";
-import { ThemeSwitcher } from "@/components/common/theme-switcher";
-import { SignOutButton, UserButton } from "@clerk/nextjs";
+import NewTaskModal from "@/components/dashbaord/NewTaskModal";
+import { useTaskStore } from "@/store/taskStore";
 
-const Dashboard = async () => {
+const Dashboard = () => {
+
+  const {isOpen,onOpen,onOpenChange} = useDisclosure()
+  const tasks = useTaskStore((state) => state.tasks)
+
+  const totalTasks = tasks.length
+  const totalTimeSpent = tasks.reduce((acc,task) => acc +(task.duration||0),0)
+
   return (
-    <div className="flex-1 ml-72 bg-slate-100 dark:bg-zinc-900 p-6">
+    <div className="flex-1 ml-72 bg-slate-100 h-screen dark:bg-zinc-900 p-6">
       <div className="flex mb-4 items-center justify-between">
         <div>
           <h3 className="text-xl font-medium dark:text-gray-200 text-gray-900">
@@ -47,6 +54,7 @@ const Dashboard = async () => {
           </Button>
           <Button
             radius="full"
+            onPress={onOpen}
             endContent={<Icon fontSize={24} icon="carbon:add" />}
             color="primary"
             variant="solid"
@@ -55,11 +63,8 @@ const Dashboard = async () => {
           </Button>
         </div>
       </div>
-      {/* <ThemeSwitcher /> */}
 
-      <Button>
-        <SignOutButton />
-      </Button>
+      <NewTaskModal isOpen={isOpen} onOpenChange={onOpenChange} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4">
         {/* Tasks Created Card */}
@@ -72,9 +77,9 @@ const Dashboard = async () => {
                   Tasks Created
                 </p>
               </div>
-              <h3 className="text-2xl font-bold mt-2">248</h3>
+              <h3 className="text-2xl font-bold mt-2">{totalTasks}</h3>
               <p className="text-sm text-purple-200 mt-1">
-                +12% from last month
+                Total tasks created
               </p>
             </div>
           </div>
@@ -108,7 +113,7 @@ const Dashboard = async () => {
                   Time Spent
                 </p>
               </div>
-              <h3 className="text-2xl font-bold mt-2">164h</h3>
+              <h3 className="text-2xl font-bold mt-2">{totalTimeSpent}</h3>
               <p className="text-sm text-emerald-200 mt-1">
                 This month's logged hours
               </p>
@@ -122,28 +127,22 @@ const Dashboard = async () => {
         <Button variant="ghost">View All</Button>
       </div>
 
-      <div className="grid grid-cols-2 gap-6 p-4">
-        {new Array(5).fill(0).map((_, index) => (
-          <Card key={index}>
+      <div className="grid grid-cols-2 gap-6 p-2">
+        {tasks.map((task) => (
+          <Card key={task.id} className="p-4">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Chip color="success" size="sm">
-                  UI
-                </Chip>
-                <Chip color="success" size="sm">
-                  DESIGN
-                </Chip>
-                <Chip color="success" size="sm">
-                  DEVELOPMENT
-                </Chip>
+              {task.tags.map((tag, index) => (
+                  <Chip key={index} color="success" size="sm">
+                    {tag}
+                  </Chip>
+                ))}
               </div>
             </CardHeader>
             <CardBody>
-              <h2>UI kit Development</h2>
+            <h2>{task.title}</h2>
               <p className="truncate text-tiny text-default-400">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Provident ex, cum ad et fuga aut tempora consequatur animi
-                delectus quibusdam!
+                {task.description}
               </p>
             </CardBody>
           </Card>

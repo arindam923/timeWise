@@ -1,5 +1,8 @@
-import dynamic from "next/dynamic";
+
+
 import { ReactNode } from "react";
+import dynamic from "next/dynamic";
+
 
 const Sidebar = dynamic(() => import("@/components/dashbaord/Sidebar"), {
   ssr: false,
